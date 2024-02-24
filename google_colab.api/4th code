@@ -1,0 +1,30 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Assuming you have loaded your dataset into a DataFrame called df
+# For example: df = pd.read_csv('your_dataset.csv')
+df=pd.read_csv('/content/mam sent dataset).csv')
+# Convert Order_Date to datetime
+df['Order_Date'] = pd.to_datetime(df['Order_Date'])
+
+# Extract year from Order_Date
+df['Year'] = df['Order_Date'].dt.year
+
+# Group by Year and Customer_ID, then sum the Sales
+sales_by_year_customer = df.groupby(['Year', 'Customer_ID'])['Sales'].sum().reset_index()
+
+# Find the top customer for each year
+top_customer_by_year = sales_by_year_customer.loc[sales_by_year_customer.groupby('Year')['Sales'].idxmax()]
+
+# Plot
+plt.figure(figsize=(10, 6))
+for year, data in top_customer_by_year.groupby('Year'):
+    plt.bar(year, data['Sales'], label=str(year) + ' - Customer ID: ' + str(data['Customer_ID'].values[0]))
+
+plt.title('Top Customer Sales for Each Year')
+plt.xlabel('Year')
+plt.ylabel('Sales')
+plt.legend()
+plt.xticks(top_customer_by_year['Year'])
+plt.tight_layout()
+plt.show()
