@@ -1,0 +1,25 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Assuming you have loaded your dataset into a DataFrame called df
+# For example: df = pd.read_csv('your_dataset.csv')
+
+# Convert Order_Date to datetime
+df['Order_Date'] = pd.to_datetime(df['Order_Date'])
+
+# Extract year from Order_Date
+df['Year'] = df['Order_Date'].dt.year
+
+# Group by Year and calculate average Sales
+average_sales_by_year = df.groupby('Year')['Sales'].mean()
+
+# Plot
+plt.figure(figsize=(10, 6))
+average_sales_by_year.plot(kind='bar', color='skyblue')
+plt.title('Average Sales for Each Year')
+plt.xlabel('Year')
+plt.ylabel('Average Sales')
+plt.xticks(rotation=45)
+plt.grid(axis='y', linestyle='--', alpha=0.7)
+plt.tight_layout()
+plt.show()
