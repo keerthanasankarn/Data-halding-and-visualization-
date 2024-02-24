@@ -1,0 +1,18 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Assuming 'df' is your DataFrame containing the dataset
+df=pd.read_csv('/content/mam sent dataset).csv')
+# Group by Sub_Category and sum the sales
+subcategory_sales = df.groupby('Sub_Category')['Sales'].sum()
+
+# Plotting
+plt.figure(figsize=(10, 6))
+plt.pie(subcategory_sales, startangle=140)
+plt.title('Sales Distribution by Subcategory')
+plt.axis('equal')  # Equal aspect ratio ensures that pie is drawn as a circle
+
+# Add a legend for the category labels and percentages
+plt.legend(loc='upper left', labels=['%s, %1.1f%%' % (label, subcategory_sales[i] / subcategory_sales.sum() * 100) for i, label in enumerate(subcategory_sales.index)])
+
+plt.show()
