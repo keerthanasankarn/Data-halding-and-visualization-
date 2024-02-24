@@ -1,0 +1,32 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Assuming you have loaded your dataset into a DataFrame called df
+# For example: df = pd.read_csv('your_dataset.csv')
+
+# Convert Order_Date to datetime
+df['Order_Date'] = pd.to_datetime(df['Order_Date'])
+
+# Extract year from Order_Date
+df['Year'] = df['Order_Date'].dt.year
+
+# Group by Year and find the row with the highest sales for each year
+highest_sales_each_year = df.loc[df.groupby('Year')['Sales'].idxmax()]
+
+# Select relevant columns
+highest_sales_info = highest_sales_each_year[['Year', 'Product_ID', 'Product_Name', 'Customer_ID', 'Sales']]
+
+# Print or visualize the data
+print(highest_sales_info)
+
+# Optionally, you can plot the highest sales for each year
+plt.figure(figsize=(10, 6))
+for year, data in highest_sales_info.groupby('Year'):
+    plt.bar(year, data['Sales'], label=f'{year} - Product: {data["Product_Name"].values[0]} ({data["Product_ID"].values[0]}), Customer ID: {data["Customer_ID"].values[0]}')
+
+plt.title('Highest Sales with Product and Customer Information for Each Year')
+plt.xlabel('Year')
+plt.ylabel('Sales')
+plt.legend()
+plt.tight_layout()
+plt.show()
