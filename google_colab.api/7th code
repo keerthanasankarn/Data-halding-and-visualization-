@@ -1,0 +1,18 @@
+import pandas as pd
+import matplotlib.pyplot as plt
+
+# Assuming 'df' is your DataFrame containing the dataset
+
+# Group by Product_ID and sum the sales, then sort in descending order and select top 10 products
+top_product_sales = df.groupby('Product_ID')['Sales'].sum().sort_values(ascending=False).head(10)
+
+# Plotting
+plt.figure(figsize=(12, 8))
+top_product_sales.plot(kind='bar', color='skyblue')
+plt.title('Total Sales for Top 10 Products')
+plt.xlabel('Product ID')
+plt.ylabel('Total Sales')
+plt.xticks(rotation=45)
+plt.grid(axis='y')
+plt.tight_layout()
+plt.show()
